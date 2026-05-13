@@ -1,0 +1,115 @@
+name: E2E BDD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: Test suite tag
+        required: true
+        default: smoke
+        type: choice
+        options:
+          - smoke
+          - regression
+      browser_project:
+        description: Playwright project
+        required: true
+        default: desktop-chromium
+        type: choice
+        options:
+          - desktop-chromium
+          - desktop-firefox
+          - mobile-chrome
+      base_url:
+        description: Optional base URL override
+        required: false
+        type: string
+
+jobs:
+  quality:
+    name: Quality gates
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.59.1-noble
+    timeout-minutes: 10
+    env:
+      BASE_URL: ${{ inputs.base_url || vars.BASE_URL || 'https://automationteststore.com' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+  e2e:
+    name: ${{ github.event_name == 'schedule' && 'regression' || inputs.suite || 'smoke' }} on ${{ matrix.browser_project }}
+    needs: quality
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.59.1-noble
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        browser_project:
+          - desktop-chromium
+          - desktop-firefox
+          - mobile-chrome
+    env:
+      BASE_URL: ${{ inputs.base_url || vars.BASE_URL || 'https://automationteststore.com' }}
+      CI_RETRIES: 1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate BDD tests
+        run: npm run bddgen
+
+      - name: Run selected suite
+        if: (github.event_name == 'workflow_dispatch' && matrix.browser_project == inputs.browser_project) || (github.event_name != 'workflow_dispatch' && matrix.browser_project != 'desktop-firefox')
+        run: npx playwright test --project=${{ matrix.browser_project }} --grep @${{ github.event_name == 'schedule' && 'regression' || inputs.suite || 'smoke' }}
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.browser_project }}
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.browser_project }}
+          path: test-results/
+          retention-days: 14

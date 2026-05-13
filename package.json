@@ -1,0 +1,52 @@
+{
+  "name": "automation-test-store-bdd",
+  "version": "0.1.0",
+  "description": "Modular BDD E2E automation framework for Automation Test Store with Playwright and CI/CD integration.",
+  "type": "module",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/halynakov/automation-test-store-bdd.git"
+  },
+  "scripts": {
+    "bddgen": "bddgen",
+    "test": "npm run test:smoke",
+    "test:smoke": "npm run test:desktop:smoke",
+    "test:regression": "npm run test:desktop:regression",
+    "test:desktop:smoke": "npm run bddgen && playwright test --project=desktop-chromium --grep @smoke",
+    "test:desktop:regression": "npm run bddgen && playwright test --project=desktop-chromium --grep @regression",
+    "test:mobile:smoke": "npm run bddgen && playwright test --project=mobile-chrome --grep @smoke",
+    "test:mobile:regression": "npm run bddgen && playwright test --project=mobile-chrome --grep @regression",
+    "test:all": "npm run bddgen && playwright test",
+    "test:mobile": "npm run test:mobile:smoke",
+    "test:headed": "npm run bddgen && playwright test --project=desktop-chromium --headed",
+    "test:ui": "npm run bddgen && playwright test --ui",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "quality": "npm run typecheck && npm run lint && npm run format:check",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.59.1",
+    "dotenv": "^16.4.7",
+    "playwright-bdd": "^8.4.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.26.0",
+    "@types/node": "^25.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-playwright": "^2.2.0",
+    "globals": "^15.15.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-gherkin": "^3.1.0",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
