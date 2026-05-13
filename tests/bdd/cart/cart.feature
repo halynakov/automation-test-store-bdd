@@ -42,14 +42,13 @@ Feature: Shopping cart
     Then Cart contains product "Skinsheen Bronzer Stick"
     And Cart contains product "Tropiques Minerale Loose Bronzer"
 
-  @api-precondition @smoke
+  @smoke
   Scenario: Prepared cart contains one product
     Given the shopping cart contains product "Skinsheen Bronzer Stick"
     When I open the shopping cart
     Then Cart contains product "Skinsheen Bronzer Stick"
     And Cart header item count is 1
 
-  @api-precondition
   Scenario: Prepared cart contains multiple products
     Given the shopping cart contains products:
       | Skinsheen Bronzer Stick           |
@@ -59,7 +58,6 @@ Feature: Shopping cart
     And Cart contains product "Tropiques Minerale Loose Bronzer"
     And Cart header item count is 2
 
-  @api-precondition
   Scenario: Update product quantity from prepared cart
     Given the shopping cart contains product "Skinsheen Bronzer Stick"
     When I open the shopping cart
@@ -67,14 +65,12 @@ Feature: Shopping cart
     Then Cart contains product "Skinsheen Bronzer Stick"
     And First cart item quantity is 2
 
-  @api-precondition
   Scenario: Remove product from prepared cart
     Given the shopping cart contains product "Skinsheen Bronzer Stick"
     When I open the shopping cart
     And Remove the first item from cart
     Then Shopping cart is empty
 
-  @api-precondition
   Scenario: Prepared cart can proceed to checkout
     Given the shopping cart contains products:
       | Skinsheen Bronzer Stick           |

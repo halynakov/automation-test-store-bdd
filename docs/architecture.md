@@ -45,7 +45,7 @@ Feature files
 - API/helper preconditions use the real Automation Test Store add-to-cart endpoint instead of fake backend data.
 - Runtime values are centralized in `runtimeConfig`.
 - CI runs quality gates before browser tests.
-- Test suites are selected by tags: `@smoke`, `@regression`, `@api-precondition`.
+- Test suites are selected by tags: `@smoke` and `@regression`.
 - Reports and failure artifacts are produced automatically.
 
 ## Extension Points

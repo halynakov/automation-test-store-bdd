@@ -16,12 +16,11 @@ enough for repeatable E2E execution:
 
 ## Suite Tags
 
-| Tag                 | Purpose                                                    |
-| ------------------- | ---------------------------------------------------------- |
-| `@smoke`            | Minimal high-value checks for quick feedback               |
-| `@regression`       | Broader functional coverage for release confidence         |
-| `@api-precondition` | Scenarios that prepare cart state through helper/API layer |
-| Domain tags         | `@catalog`, `@cart`, `@checkout` group scenarios by area   |
+| Tag           | Purpose                                                  |
+| ------------- | -------------------------------------------------------- |
+| `@smoke`      | Minimal high-value checks for quick feedback             |
+| `@regression` | Broader functional coverage for release confidence       |
+| Domain tags   | `@catalog`, `@cart`, `@checkout` group scenarios by area |
 
 ## Current Coverage
 

@@ -7,34 +7,29 @@ Feature: Guest checkout
     And I open the shopping cart
 
   @smoke
-  @api-precondition
   Scenario: Guest checkout can be started from prepared cart
     When Proceed to checkout from cart
     And Continue checkout as guest
     Then Checkout page is displayed
 
-  @api-precondition
   Scenario: Required checkout fields are validated
     When Proceed to checkout from cart
     And Continue checkout as guest
     And Submit checkout form without required fields
     Then Checkout validation message is displayed
 
-  @api-precondition
   Scenario: Guest can fill checkout details
     When Proceed to checkout from cart
     And Continue checkout as guest
     And Fill valid guest checkout details
     Then Checkout page is displayed
 
-  @api-precondition
   Scenario: Guest checkout form keeps entered customer details
     When Proceed to checkout from cart
     And Continue checkout as guest
     And Fill valid guest checkout details
     Then Guest checkout details are filled
 
-  @api-precondition
   Scenario: Guest can recover from required field validation
     When Proceed to checkout from cart
     And Continue checkout as guest
