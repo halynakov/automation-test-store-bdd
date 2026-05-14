@@ -48,6 +48,7 @@ Feature files
 - CI runs quality gates before browser tests.
 - Test suites are selected by tags: `@smoke` and `@regression`.
 - Reports and failure artifacts are produced automatically.
+- CI runs can publish centralized launches to ReportPortal when credentials are configured.
 
 ## Extension Points
 

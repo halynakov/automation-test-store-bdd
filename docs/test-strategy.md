@@ -86,5 +86,5 @@ Before E2E execution, the project validates:
 - Add visual regression for product and cart pages.
 - Add scheduled monitoring runs.
 - Add sharding for larger suites.
-- Add Allure or ReportPortal integration.
+- Add Allure as a fallback report format if ReportPortal is not available.
 - Add test data factories for multiple customer profiles.

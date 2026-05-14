@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 import { defineBddConfig } from 'playwright-bdd'
 import 'dotenv/config'
+import { buildReporters } from './src/config/reporters'
 import { runtimeConfig } from './src/config/runtimeConfig'
 
 const bddTestDir = defineBddConfig({
@@ -19,14 +20,7 @@ export default defineConfig({
   expect: {
     timeout: runtimeConfig.expectTimeoutMs
   },
-  reporter: process.env.CI
-    ? [
-        ['list'],
-        ['html', { open: 'never', outputFolder: 'playwright-report' }],
-        ['github'],
-        ['junit', { outputFile: 'test-results/junit.xml' }]
-      ]
-    : [['list'], ['html', { open: 'never', outputFolder: 'playwright-report' }]],
+  reporter: buildReporters(),
   use: {
     baseURL: runtimeConfig.baseURL,
     actionTimeout: runtimeConfig.actionTimeoutMs,

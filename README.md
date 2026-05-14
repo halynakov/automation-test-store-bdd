@@ -19,6 +19,7 @@ Repository target: [github.com/halynakov/automation-test-store-bdd](https://gith
 - ESLint and Prettier
 - GitHub Actions
 - Playwright HTML report, traces, screenshots, and videos on failure
+- Optional ReportPortal reporting for CI runs
 
 ## Project Structure
 
@@ -98,6 +99,15 @@ The GitHub Actions workflow supports:
 - browser project selection: desktop Chromium, desktop Firefox, or mobile Chrome;
 - uploading Playwright HTML report and raw test results as artifacts.
 - scheduled regression execution for desktop Chromium and mobile Chrome.
+- optional ReportPortal launch publication when `RP_API_KEY`, `RP_ENDPOINT`, and `RP_PROJECT` are configured.
+
+Local runs do not publish to ReportPortal. They use the local Playwright HTML
+report only. In CI, ReportPortal is treated as an external reporting layer and
+is enabled through GitHub Secrets/Variables:
+
+- `RP_API_KEY`: ReportPortal API key stored as a GitHub Secret.
+- `RP_ENDPOINT`: ReportPortal API endpoint stored as a GitHub Secret or Variable.
+- `RP_PROJECT`: ReportPortal project name stored as a GitHub Secret or Variable.
 
 ## Framework Modules
 
@@ -125,7 +135,7 @@ The MVP focuses on stable user journeys:
 - API-prepared cart and checkout preconditions.
 - deterministic selected-product flows without broad hardcoded SKU lists.
 
-Future improvements can include deeper API checks, visual regression, Allure/ReportPortal,
+Future improvements can include deeper API checks, visual regression, Allure fallback,
 Docker Compose test environment, parallel sharding, and scheduled monitoring runs.
 
 See also:

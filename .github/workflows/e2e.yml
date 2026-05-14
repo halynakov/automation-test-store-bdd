@@ -2,7 +2,6 @@ name: E2E BDD
 
 on:
   push:
-    branches: [main]
   pull_request:
   schedule:
     - cron: '0 3 * * *'
@@ -78,6 +77,11 @@ jobs:
     env:
       BASE_URL: ${{ inputs.base_url || vars.BASE_URL || 'https://automationteststore.com' }}
       CI_RETRIES: 1
+      TEST_SUITE: ${{ github.event_name == 'schedule' && 'regression' || inputs.suite || 'smoke' }}
+      PLAYWRIGHT_PROJECT: ${{ matrix.browser_project }}
+      RP_API_KEY: ${{ secrets.RP_API_KEY }}
+      RP_ENDPOINT: ${{ secrets.RP_ENDPOINT || vars.RP_ENDPOINT }}
+      RP_PROJECT: ${{ secrets.RP_PROJECT || vars.RP_PROJECT }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -96,7 +100,7 @@ jobs:
 
       - name: Run selected suite
         if: (github.event_name == 'workflow_dispatch' && matrix.browser_project == inputs.browser_project) || (github.event_name != 'workflow_dispatch' && matrix.browser_project != 'desktop-firefox')
-        run: npx playwright test --project=${{ matrix.browser_project }} --grep @${{ github.event_name == 'schedule' && 'regression' || inputs.suite || 'smoke' }}
+        run: npx playwright test --project=$PLAYWRIGHT_PROJECT --grep @$TEST_SUITE
 
       - name: Upload Playwright report
         if: always()
