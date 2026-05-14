@@ -6,6 +6,8 @@ import { HomePage } from '../pages/HomePage'
 import { ProductPage } from '../pages/ProductPage'
 import { runtimeConfig } from '../config/runtimeConfig'
 import { StorefrontClient } from '../api/storefront/StorefrontClient'
+import { ProductDiscoveryService } from '../support/ProductDiscoveryService'
+import { ScenarioContext } from '../support/scenarioContext'
 
 export type AppPages = {
   cart: CartPage
@@ -14,16 +16,12 @@ export type AppPages = {
   product: ProductPage
 }
 
-export type ScenarioContext = {
-  id: string
-  startedAt: string
-}
-
 type FrameworkFixtures = {
   pages: AppPages
   scenarioContext: ScenarioContext
   appConfig: typeof runtimeConfig
   storefrontClient: StorefrontClient
+  productDiscovery: ProductDiscoveryService
 }
 
 export const test = base.extend<FrameworkFixtures>({
@@ -44,10 +42,15 @@ export const test = base.extend<FrameworkFixtures>({
     await use(new StorefrontClient(page.request))
   },
 
+  productDiscovery: async ({ pages, scenarioContext, storefrontClient }, use) => {
+    await use(new ProductDiscoveryService(pages, scenarioContext, storefrontClient))
+  },
+
   scenarioContext: async ({}, use, testInfo) => {
     await use({
       id: `${testInfo.project.name}-${testInfo.parallelIndex}-${Date.now()}`,
-      startedAt: new Date().toISOString()
+      startedAt: new Date().toISOString(),
+      selectedProducts: []
     })
   }
 })

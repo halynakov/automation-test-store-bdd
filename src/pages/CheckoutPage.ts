@@ -1,6 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test'
 import { BasePage } from './BasePage'
 import { GuestCheckoutFormComponent } from './components/GuestCheckoutFormComponent'
+import { GuestCustomer } from '../support/testData'
 
 export class CheckoutPage extends BasePage {
   readonly guestCheckoutRadio: Locator
@@ -31,12 +32,12 @@ export class CheckoutPage extends BasePage {
     await this.guestForm.expectValidationIsShown()
   }
 
-  async fillGuestDetails() {
-    await this.guestForm.fillValidCustomerDetails()
+  async fillGuestDetails(customer?: GuestCustomer) {
+    await this.guestForm.fillValidCustomerDetails(customer)
   }
 
-  async expectGuestDetailsAreFilled() {
-    await this.guestForm.expectCustomerDetailsAreFilled()
+  async expectGuestDetailsAreFilled(customer?: GuestCustomer) {
+    await this.guestForm.expectCustomerDetailsAreFilled(customer)
   }
 
   async confirmOrderIfAvailable() {

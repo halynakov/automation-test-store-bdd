@@ -2,6 +2,7 @@ import { Page } from '@playwright/test'
 import { BasePage } from './BasePage'
 import { CartTableComponent } from './components/CartTableComponent'
 import { storefrontRoutes } from '../support/routes'
+import { SelectedProduct } from '../support/scenarioContext'
 
 export class CartPage extends BasePage {
   readonly cartTable: CartTableComponent
@@ -13,6 +14,13 @@ export class CartPage extends BasePage {
 
   async expectCartContains(productName: string) {
     await this.cartTable.expectCartContains(productName)
+  }
+
+  async expectCartContainsSelectedProducts(products: SelectedProduct[]) {
+    for (const product of products) {
+      await this.cartTable.expectCartContains(product.name)
+      await this.cartTable.expectProductQuantity(product.name, product.quantity)
+    }
   }
 
   async setFirstItemQuantity(quantity: number) {

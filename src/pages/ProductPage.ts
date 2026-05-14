@@ -33,4 +33,8 @@ export class ProductPage extends BasePage {
   async addCurrentProductToCart() {
     await this.clickFirstVisible(this.productList.productDetailsAddToCartButton, this.productList.addToCartButtons)
   }
+
+  async addProductToCart(productName: string) {
+    await this.productList.addProductToCart(productName)
+  }
 }

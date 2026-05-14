@@ -4,6 +4,7 @@ import { CategoryMenuComponent } from './components/CategoryMenuComponent'
 import { HeaderComponent } from './components/HeaderComponent'
 import { ProductListComponent } from './components/ProductListComponent'
 import { storefrontRoutes } from '../support/routes'
+import { SelectedProduct } from '../support/scenarioContext'
 
 export class HomePage extends BasePage {
   readonly header: HeaderComponent
@@ -65,5 +66,13 @@ export class HomePage extends BasePage {
 
   async expectNoSearchResults() {
     await this.productList.expectNoSearchResults()
+  }
+
+  async expectVisibleProductCountAtLeast(expectedCount: number) {
+    await this.productList.expectVisibleProductCountAtLeast(expectedCount)
+  }
+
+  async selectFirstAvailableProduct(categoryName: string, quantity = 1): Promise<SelectedProduct> {
+    return this.productList.selectFirstAvailableProduct(categoryName, quantity)
   }
 }

@@ -13,6 +13,7 @@ enough for repeatable E2E execution:
 - responsive desktop and mobile smoke coverage;
 - guest checkout start and validation.
 - API-assisted cart preconditions for faster checkout and cart coverage.
+- deterministic catalog discovery instead of broad hardcoded product lists.
 
 ## Suite Tags
 
@@ -24,12 +25,23 @@ enough for repeatable E2E execution:
 
 ## Current Coverage
 
-| Area           | Covered behavior                                                                    |
-| -------------- | ----------------------------------------------------------------------------------- |
-| Catalog        | Exact search, partial search, negative search, category browsing, product details   |
-| Cart           | UI add flows, API-prepared carts, multiple products, update quantity, remove item   |
-| Checkout       | API-prepared guest checkout start, validation, valid detail filling, data retention |
-| Mobile/Desktop | Shared smoke scenarios across desktop Chromium and mobile Chrome projects           |
+| Area           | Covered behavior                                                                       |
+| -------------- | -------------------------------------------------------------------------------------- |
+| Catalog        | Canary search, deterministic product discovery, category availability, product details |
+| Cart           | UI add flows, API-prepared carts, multi-category products, quantity update, removal    |
+| Checkout       | API-prepared guest checkout start, validation, customer profile table, data retention  |
+| Journey        | Discovery-to-cart-to-checkout flow with selected product context                       |
+| Mobile/Desktop | Shared smoke scenarios across desktop Chromium and mobile Chrome projects              |
+
+## Test Data Approach
+
+Most scenarios avoid concrete product names. They select an available product
+from a category, save it in scenario context, and assert the same product later
+in the flow. One known product remains as a canary scenario to detect whether the
+public demo catalog changed.
+
+True random product selection is intentionally avoided because it makes failures
+harder to reproduce.
 
 ## Desktop and Mobile Split
 
@@ -66,6 +78,7 @@ Before E2E execution, the project validates:
 - Tests use a public educational demo site, so network stability can affect runs.
 - Payment completion is intentionally not automated.
 - Full backend API coverage is out of MVP scope because the public demo site exposes only limited storefront endpoints.
+- Mocked catalog/error states are out of the main E2E suite and should be added as a separate `@mocked` suite if needed.
 
 ## Future Improvements
 

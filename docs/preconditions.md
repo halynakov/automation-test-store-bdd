@@ -18,10 +18,16 @@ Supported BDD steps:
 
 - `Given the shopping cart contains product "Skinsheen Bronzer Stick"`
 - `Given the shopping cart contains products:`
+- `Given the shopping cart contains an available product from category "Makeup"`
+- `Given the shopping cart contains available products:`
 - `Given I open the shopping cart`
 
 Product IDs and category routes are typed in `src/support/catalog.ts`. Route
 construction is centralized in `src/support/routes.ts`.
+
+Dynamic preconditions first discover an addable product from a category page,
+store it in scenario context, and then use the real storefront add-to-cart
+endpoint with the discovered product ID.
 
 ## Limits
 

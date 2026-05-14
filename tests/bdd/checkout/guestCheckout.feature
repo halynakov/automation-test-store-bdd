@@ -3,7 +3,7 @@ Feature: Guest checkout
 
   Background:
     Given Open Automation Test Store home page
-    And the shopping cart contains product "Skinsheen Bronzer Stick"
+    And the shopping cart contains an available product from category "Makeup"
     And I open the shopping cart
 
   @smoke
@@ -18,11 +18,21 @@ Feature: Guest checkout
     And Submit checkout form without required fields
     Then Checkout validation message is displayed
 
-  Scenario: Guest can fill checkout details
+  Scenario: Guest can fill checkout details from customer profile
     When Proceed to checkout from cart
     And Continue checkout as guest
-    And Fill valid guest checkout details
-    Then Checkout page is displayed
+    And I fill guest checkout details:
+      | field     | value                          |
+      | firstName | Diploma                        |
+      | lastName  | Customer                       |
+      | email     | diploma.customer@example.com   |
+      | telephone | 1234567890                     |
+      | address1  | 10 Test Street                 |
+      | city      | Test City                      |
+      | postcode  | 10001                          |
+      | country   | United Kingdom                 |
+      | region    | Angus                          |
+    Then Guest checkout details are filled
 
   Scenario: Guest checkout form keeps entered customer details
     When Proceed to checkout from cart

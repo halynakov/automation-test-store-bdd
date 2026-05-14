@@ -32,7 +32,7 @@ automation-test-store-bdd/
   src/pages/              # Page Object classes
   src/pages/components/   # Reusable UI components with constructor locators
   src/api/                # API/helper preconditions
-  src/support/            # Test data and small helpers
+  src/support/            # Test data, selected product context, and helpers
   docs/                   # Architecture, CI/CD, and test strategy notes
   eslint-rules/           # Project-specific lint rules
   .github/workflows/      # CI/CD pipeline
@@ -107,6 +107,7 @@ The GitHub Actions workflow supports:
 - Page Objects and components isolate UI selectors from business steps.
 - All stable locators are constructor-initialized `readonly Locator` fields.
 - `StorefrontClient` prepares cart state through real storefront endpoints.
+- `ProductDiscoveryService` selects available products deterministically and stores them in scenario context.
 - Feature files remain readable and independent from implementation details.
 
 ## Diploma Scope
@@ -122,6 +123,7 @@ The MVP focuses on stable user journeys:
 - guest checkout start;
 - required field validation.
 - API-prepared cart and checkout preconditions.
+- deterministic selected-product flows without broad hardcoded SKU lists.
 
 Future improvements can include deeper API checks, visual regression, Allure/ReportPortal,
 Docker Compose test environment, parallel sharding, and scheduled monitoring runs.
@@ -131,4 +133,5 @@ See also:
 - `docs/architecture.md`
 - `docs/ci-cd.md`
 - `docs/preconditions.md`
+- `docs/test-data-strategy.md`
 - `docs/test-strategy.md`

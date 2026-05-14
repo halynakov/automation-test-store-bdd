@@ -32,7 +32,7 @@ Feature files
 | API helpers       | `src/api`              | Preconditions through real Storefront endpoints                  |
 | Runtime config    | `src/config`           | Environment-driven base URL, timeouts, retries, workers          |
 | Hooks             | `src/hooks`            | Scenario logging and failure attachments                         |
-| Support utilities | `src/support`          | Test data, catalog dictionaries, routes, device helpers          |
+| Support utilities | `src/support`          | Test data, selected product context, routes, device helpers      |
 | CI/CD             | `.github/workflows`    | Automated quality checks and test execution                      |
 
 ## Key Design Decisions
@@ -43,6 +43,7 @@ Feature files
 - Components keep reusable UI modules small and close to the old production framework pattern.
 - BDD steps operate on fixtures, not on raw page constructors.
 - API/helper preconditions use the real Automation Test Store add-to-cart endpoint instead of fake backend data.
+- Dynamic catalog scenarios use deterministic product discovery and store selected products in scenario context.
 - Runtime values are centralized in `runtimeConfig`.
 - CI runs quality gates before browser tests.
 - Test suites are selected by tags: `@smoke` and `@regression`.
@@ -56,4 +57,5 @@ Feature files
 - Add business steps in `src/steps`.
 - Add Gherkin scenarios under `tests/bdd`.
 - Add API setup flows in `src/api` only when the target application exposes a real endpoint.
+- Add product selection rules in `ProductDiscoveryService` when a scenario needs catalog data without hardcoded SKUs.
 - Add a new CI input or scheduled run in `.github/workflows/e2e.yml`.

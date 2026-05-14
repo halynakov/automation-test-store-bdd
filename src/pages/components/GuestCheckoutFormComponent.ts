@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test'
-import { guestCustomer } from '../../support/testData'
+import { GuestCustomer, guestCustomer } from '../../support/testData'
 
 export class GuestCheckoutFormComponent {
   readonly validationMessages: Locator
@@ -30,23 +30,23 @@ export class GuestCheckoutFormComponent {
     await expect(this.validationMessages.first()).toBeVisible()
   }
 
-  async fillValidCustomerDetails() {
-    await this.firstNameInput.fill(guestCustomer.firstName)
-    await this.lastNameInput.fill(guestCustomer.lastName)
-    await this.emailInput.fill(guestCustomer.email)
-    await this.telephoneInput.fill(guestCustomer.telephone)
-    await this.addressInput.fill(guestCustomer.address1)
-    await this.cityInput.fill(guestCustomer.city)
-    await this.postcodeInput.fill(guestCustomer.postcode)
-    await this.countrySelect.selectOption({ label: guestCustomer.country })
-    await expect(this.regionSelect).toContainText(guestCustomer.region)
-    await this.regionSelect.selectOption({ label: guestCustomer.region })
+  async fillValidCustomerDetails(customer: GuestCustomer = guestCustomer) {
+    await this.firstNameInput.fill(customer.firstName)
+    await this.lastNameInput.fill(customer.lastName)
+    await this.emailInput.fill(customer.email)
+    await this.telephoneInput.fill(customer.telephone)
+    await this.addressInput.fill(customer.address1)
+    await this.cityInput.fill(customer.city)
+    await this.postcodeInput.fill(customer.postcode)
+    await this.countrySelect.selectOption({ label: customer.country })
+    await expect(this.regionSelect).toContainText(customer.region)
+    await this.regionSelect.selectOption({ label: customer.region })
   }
 
-  async expectCustomerDetailsAreFilled() {
-    await expect(this.firstNameInput).toHaveValue(guestCustomer.firstName)
-    await expect(this.lastNameInput).toHaveValue(guestCustomer.lastName)
-    await expect(this.emailInput).toHaveValue(guestCustomer.email)
-    await expect(this.cityInput).toHaveValue(guestCustomer.city)
+  async expectCustomerDetailsAreFilled(customer: GuestCustomer = guestCustomer) {
+    await expect(this.firstNameInput).toHaveValue(customer.firstName)
+    await expect(this.lastNameInput).toHaveValue(customer.lastName)
+    await expect(this.emailInput).toHaveValue(customer.email)
+    await expect(this.cityInput).toHaveValue(customer.city)
   }
 }

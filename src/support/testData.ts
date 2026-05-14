@@ -1,9 +1,20 @@
 export const products = {
-  skincare: 'Flash Bronzer Body Gel',
-  makeup: 'Tropiques Minerale Loose Bronzer'
+  canary: 'Skinsheen Bronzer Stick'
 }
 
-export const guestCustomer = {
+export type GuestCustomer = {
+  firstName: string
+  lastName: string
+  email: string
+  telephone: string
+  address1: string
+  city: string
+  region: string
+  postcode: string
+  country: string
+}
+
+export const guestCustomer: GuestCustomer = {
   firstName: 'Test',
   lastName: 'Customer',
   email: `test.customer.${Date.now()}@example.com`,
