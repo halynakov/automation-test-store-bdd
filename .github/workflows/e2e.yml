@@ -150,7 +150,7 @@ jobs:
   publish-allure-pages:
     name: Publish Allure report to GitHub Pages
     needs: e2e
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:
