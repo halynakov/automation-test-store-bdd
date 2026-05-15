@@ -112,12 +112,14 @@ function buildBehaviors(testCases) {
   return root
 }
 
-function buildWidget(tree) {
-  const items = tree.children.map((item) => ({
-    uid: item.uid,
-    name: item.name,
-    statistic: item.statistic ?? emptyStat()
-  }))
+function buildFeatureWidget(tree) {
+  const items = tree.children.flatMap((epic) =>
+    (epic.children ?? []).map((feature) => ({
+      uid: feature.uid,
+      name: feature.name,
+      statistic: feature.statistic ?? emptyStat()
+    }))
+  )
 
   return {
     total: items.length,
@@ -136,6 +138,6 @@ await mkdir(dataDir, { recursive: true })
 await mkdir(widgetsDir, { recursive: true })
 
 await writeJson(path.join(dataDir, 'behaviors.json'), behaviors)
-await writeJson(path.join(widgetsDir, 'behaviors.json'), buildWidget(behaviors))
+await writeJson(path.join(widgetsDir, 'behaviors.json'), buildFeatureWidget(behaviors))
 await writeJson(path.join(widgetsDir, 'packages.json'), { total: 0, items: [] })
 await writeJson(path.join(widgetsDir, 'launches.json'), [])

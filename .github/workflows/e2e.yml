@@ -182,6 +182,14 @@ jobs:
           path: allure-results
           merge-multiple: true
 
+      - name: Restore Allure history
+        run: |
+          mkdir -p allure-results/history
+          history_url="https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/history"
+          for file in history-trend.json duration-trend.json retries-trend.json categories-trend.json; do
+            curl --fail --silent --show-error --location "$history_url/$file" --output "allure-results/history/$file" || true
+          done
+
       - name: Generate combined Allure report
         run: npm run report:allure:generate
 

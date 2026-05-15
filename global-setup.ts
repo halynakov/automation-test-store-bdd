@@ -34,6 +34,36 @@ async function globalSetup(config: FullConfig) {
     )
   )
 
+  await writeFile(
+    'allure-results/categories.json',
+    JSON.stringify(
+      [
+        {
+          name: 'Assertion failures',
+          matchedStatuses: ['failed'],
+          messageRegex: '.*expect.*|.*Expected.*|.*received.*'
+        },
+        {
+          name: 'Element synchronization issues',
+          matchedStatuses: ['failed', 'broken'],
+          messageRegex: '.*Timeout.*|.*waiting for.*|.*locator.*'
+        },
+        {
+          name: 'Application errors',
+          matchedStatuses: ['broken'],
+          messageRegex: '.*ERR_.*|.*500.*|.*503.*'
+        },
+        {
+          name: 'Infrastructure errors',
+          matchedStatuses: ['broken'],
+          messageRegex: '.*browser.*closed.*|.*Target page.*|.*ECONNRESET.*'
+        }
+      ],
+      null,
+      2
+    )
+  )
+
   console.log(`Automation Test Store BDD suite`)
   console.log(`Base URL: ${runtimeConfig.baseURL}`)
   console.log(`Playwright version: ${config.version}`)
