@@ -10,6 +10,8 @@ GitHub Actions runs selected suites in CI.
 
 Repository target: [github.com/halynakov/automation-test-store-bdd](https://github.com/halynakov/automation-test-store-bdd).
 
+Published Allure report: [halynakov.github.io/automation-test-store-bdd](https://halynakov.github.io/automation-test-store-bdd/).
+
 ## Stack
 
 - TypeScript
@@ -96,6 +98,9 @@ npm run report:allure:generate
 npm run report:allure:open
 ```
 
+Local Allure uses `127.0.0.1` because it is served from the current machine.
+The CI-generated report is published through GitHub Pages.
+
 ## CI/CD
 
 The GitHub Actions workflow supports:
@@ -106,6 +111,7 @@ The GitHub Actions workflow supports:
 - browser project selection: desktop Chromium, desktop Firefox, or mobile Chrome;
 - uploading Playwright HTML report and raw test results as artifacts.
 - uploading Allure report and raw Allure results as artifacts.
+- publishing the combined Allure report to GitHub Pages after successful pushes to `main`.
 - scheduled regression execution for desktop Chromium and mobile Chrome.
 
 ## Framework Modules

@@ -18,6 +18,7 @@ E2E regressions in one flow.
 | Execute suite        | `npx playwright test ...` | Run selected browser project and tag suite         |
 | Generate reports     | Playwright and Allure     | Create technical and BDD-friendly HTML reports     |
 | Upload artifacts     | GitHub artifact upload    | Store reports, traces, videos, and raw results     |
+| Publish Pages report | GitHub Pages              | Publish the combined Allure report from `main`     |
 
 ## Execution Modes
 
@@ -41,6 +42,7 @@ E2E regressions in one flow.
 - `test-results/junit.xml`: CI-friendly JUnit report.
 - `allure-report/`: BDD-friendly HTML report.
 - `allure-results/`: raw Allure result files for report regeneration.
+- GitHub Pages: public Allure report for the latest successful push to `main`.
 
 ## Reporting Strategy
 
@@ -52,6 +54,8 @@ audiences:
 - JUnit XML is used for CI compatibility.
 - Allure Report is used for BDD-friendly presentation of features, scenarios,
   steps, durations, and failure attachments.
+- GitHub Pages is used to present the latest combined Allure report without a
+  local `127.0.0.1` server.
 
 ReportPortal remains a future enterprise-level extension for centralized launch
 history, flaky analysis, and dashboards when a dedicated ReportPortal server is
