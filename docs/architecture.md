@@ -47,8 +47,7 @@ Feature files
 - Runtime values are centralized in `runtimeConfig`.
 - CI runs quality gates before browser tests.
 - Test suites are selected by tags: `@smoke` and `@regression`.
-- Reports and failure artifacts are produced automatically.
-- CI runs can publish centralized launches to ReportPortal when credentials are configured.
+- Playwright and Allure reports are produced automatically.
 
 ## Extension Points
 

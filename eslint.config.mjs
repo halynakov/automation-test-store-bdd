@@ -27,7 +27,14 @@ const featureParser = {
 export default [
   js.configs.recommended,
   {
-    ignores: ['node_modules/**', '.features-gen/**', 'playwright-report/**', 'test-results/**']
+    ignores: [
+      'node_modules/**',
+      '.features-gen/**',
+      'playwright-report/**',
+      'test-results/**',
+      'allure-results/**',
+      'allure-report/**'
+    ]
   },
   {
     files: ['**/*.ts'],

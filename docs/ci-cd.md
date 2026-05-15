@@ -16,8 +16,8 @@ E2E regressions in one flow.
 | Format check         | `npm run format:check`    | Enforce consistent code style                      |
 | Generate BDD tests   | `npm run bddgen`          | Convert Gherkin scenarios into Playwright tests    |
 | Execute suite        | `npx playwright test ...` | Run selected browser project and tag suite         |
-| Upload artifacts     | GitHub artifact upload    | Store HTML report and raw test results             |
-| Publish launch       | ReportPortal reporter     | Send CI execution metadata and test results        |
+| Generate reports     | Playwright and Allure     | Create technical and BDD-friendly HTML reports     |
+| Upload artifacts     | GitHub artifact upload    | Store reports, traces, videos, and raw results     |
 
 ## Execution Modes
 
@@ -39,28 +39,26 @@ E2E regressions in one flow.
 - `playwright-report/`: HTML report.
 - `test-results/`: traces, screenshots, videos, and custom failure attachments.
 - `test-results/junit.xml`: CI-friendly JUnit report.
+- `allure-report/`: BDD-friendly HTML report.
+- `allure-results/`: raw Allure result files for report regeneration.
 
-## ReportPortal
+## Reporting Strategy
 
-Local runs use only the Playwright HTML report. CI runs can additionally publish
-results to ReportPortal through `@reportportal/agent-js-playwright`.
+The framework produces several report formats because they serve different
+audiences:
 
-ReportPortal is enabled only when these values are configured:
+- Playwright HTML report is used for technical debugging with traces,
+  screenshots, and videos.
+- JUnit XML is used for CI compatibility.
+- Allure Report is used for BDD-friendly presentation of features, scenarios,
+  steps, durations, and failure attachments.
 
-- `RP_API_KEY`: GitHub Secret.
-- `RP_ENDPOINT`: GitHub Secret or Variable.
-- `RP_PROJECT`: GitHub Secret or Variable.
-
-The launch name includes the GitHub event, suite tag, Playwright project, and
-workflow run number. Launch attributes include branch, commit, base URL, suite,
-browser project, and `framework=playwright-bdd`.
-
-If ReportPortal is not configured, the pipeline still runs and keeps the
-Playwright HTML/JUnit artifacts. This keeps the reporting layer optional and
-prevents external infrastructure from blocking framework validation.
+ReportPortal remains a future enterprise-level extension for centralized launch
+history, flaky analysis, and dashboards when a dedicated ReportPortal server is
+available.
 
 ## Diploma Relevance
 
 The pipeline demonstrates CI/CD integration by combining static validation,
-BDD test generation, browser execution, artifact publication, and optional
-enterprise-style centralized reporting.
+BDD test generation, browser execution, artifact publication, and readable
+test reporting.

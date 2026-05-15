@@ -79,9 +79,6 @@ jobs:
       CI_RETRIES: 1
       TEST_SUITE: ${{ github.event_name == 'schedule' && 'regression' || inputs.suite || 'smoke' }}
       PLAYWRIGHT_PROJECT: ${{ matrix.browser_project }}
-      RP_API_KEY: ${{ secrets.RP_API_KEY }}
-      RP_ENDPOINT: ${{ secrets.RP_ENDPOINT || vars.RP_ENDPOINT }}
-      RP_PROJECT: ${{ secrets.RP_PROJECT || vars.RP_PROJECT }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -102,6 +99,11 @@ jobs:
         if: (github.event_name == 'workflow_dispatch' && matrix.browser_project == inputs.browser_project) || (github.event_name != 'workflow_dispatch' && matrix.browser_project != 'desktop-firefox')
         run: npx playwright test --project=$PLAYWRIGHT_PROJECT --grep @$TEST_SUITE
 
+      - name: Generate Allure report
+        if: always()
+        run: npx allure generate allure-results --clean -o allure-report
+        continue-on-error: true
+
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
@@ -117,3 +119,21 @@ jobs:
           name: test-results-${{ matrix.browser_project }}
           path: test-results/
           retention-days: 14
+
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-${{ matrix.browser_project }}
+          path: allure-report/
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ matrix.browser_project }}
+          path: allure-results/
+          retention-days: 14
+          if-no-files-found: ignore
