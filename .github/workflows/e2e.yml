@@ -86,10 +86,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser_project:
-          - desktop-chromium
-          - desktop-firefox
-          - mobile-chrome
+        browser_project: ${{ fromJSON(github.event_name == 'workflow_dispatch' && inputs.browser_project == 'desktop-chromium' && '["desktop-chromium"]' || github.event_name == 'workflow_dispatch' && inputs.browser_project == 'mobile-chrome' && '["mobile-chrome"]' || github.event_name == 'workflow_dispatch' && inputs.browser_project == 'desktop-firefox' && '["desktop-firefox"]' || github.event_name == 'workflow_dispatch' && inputs.browser_project == 'all-browsers' && '["desktop-chromium","mobile-chrome","desktop-firefox"]' || '["desktop-chromium","mobile-chrome"]') }}
     env:
       BASE_URL: ${{ inputs.base_url || vars.BASE_URL || 'https://automationteststore.com' }}
       CI_RETRIES: 1
@@ -128,7 +125,6 @@ jobs:
           fi
 
       - name: Run selected suite
-        if: (github.event_name != 'workflow_dispatch' && matrix.browser_project != 'desktop-firefox') || (github.event_name == 'workflow_dispatch' && (inputs.browser_project == 'all-browsers' || inputs.browser_project == matrix.browser_project || (inputs.browser_project == 'desktop-and-mobile' && matrix.browser_project != 'desktop-firefox')))
         run: npx playwright test --project=$PLAYWRIGHT_PROJECT --grep "$TEST_GREP"
 
       - name: Generate Allure report
