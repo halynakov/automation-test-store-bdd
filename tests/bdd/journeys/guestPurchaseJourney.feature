@@ -4,6 +4,7 @@ Feature: Guest purchase journey
   Background:
     Given Open Automation Test Store home page
 
+  @smoke
   Scenario: Guest can move selected product from discovery to checkout
     Given I select an available product from category "Makeup"
     When I add the selected product to cart

@@ -32,6 +32,28 @@ export class HomePage extends BasePage {
     }
   }
 
+  async openViaHeaderLogo() {
+    const openedThroughHeader = await this.header.openHome()
+
+    if (!openedThroughHeader) {
+      await this.page.goto(storefrontRoutes.home())
+      return
+    }
+
+    await this.page.waitForLoadState('domcontentloaded')
+  }
+
+  async openAccountViaHeader() {
+    const openedThroughHeader = await this.header.openAccount()
+
+    if (!openedThroughHeader) {
+      await this.page.goto(storefrontRoutes.accountLogin())
+      return
+    }
+
+    await this.page.waitForLoadState('domcontentloaded')
+  }
+
   async openCategory(categoryName: string) {
     const openedThroughMenu = await this.categoryMenu.openCategory(categoryName)
 
@@ -56,6 +78,14 @@ export class HomePage extends BasePage {
     await this.header.expectCartItemCount(count)
   }
 
+  async expectHomePageIsDisplayed() {
+    await this.header.expectLogoVisible()
+  }
+
+  async expectHeaderNavigationIsDisplayed() {
+    await this.header.expectLogoVisible()
+  }
+
   async expectProductIsVisible(productName: string) {
     await this.productList.expectProductIsVisible(productName)
   }
@@ -70,6 +100,22 @@ export class HomePage extends BasePage {
 
   async expectVisibleProductCountAtLeast(expectedCount: number) {
     await this.productList.expectVisibleProductCountAtLeast(expectedCount)
+  }
+
+  async sortCatalogBy(optionLabel: string) {
+    await this.productList.sortBy(optionLabel)
+  }
+
+  async expectCatalogSortOptionSelected(optionLabel: string) {
+    await this.productList.expectSortOptionSelected(optionLabel)
+  }
+
+  async setCatalogPageSize(pageSize: number) {
+    await this.productList.setPageSize(pageSize)
+  }
+
+  async expectCatalogPageSizeSelected(pageSize: number) {
+    await this.productList.expectPageSizeSelected(pageSize)
   }
 
   async selectFirstAvailableProduct(categoryName: string, quantity = 1): Promise<SelectedProduct> {

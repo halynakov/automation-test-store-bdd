@@ -2,6 +2,7 @@ import { expect, Locator, Page } from '@playwright/test'
 import { SelectedProduct } from '../../support/scenarioContext'
 
 export class ProductListComponent {
+  private readonly page: Page
   readonly productCards: Locator
   readonly productLinks: Locator
   readonly addToCartButtons: Locator
@@ -9,8 +10,11 @@ export class ProductListComponent {
   readonly productPrice: Locator
   readonly productDetailsAddToCartButton: Locator
   readonly pageContent: Locator
+  readonly sortSelect: Locator
+  readonly catalogPageSizeSelect: Locator
 
   constructor(page: Page) {
+    this.page = page
     this.productCards = page.locator(
       '.thumbnails.grid > div:has(a.prdocutname), .thumbnails.grid > div:has(a.productname)'
     )
@@ -22,6 +26,8 @@ export class ProductListComponent {
     this.productPrice = page.locator('.productfilneprice, .productprice, .oneprice, .pricenew, .price').first()
     this.productDetailsAddToCartButton = page.locator('#product_add_to_cart, button:has-text("Add to Cart")').first()
     this.pageContent = page.locator('body')
+    this.sortSelect = page.locator('#sort').first()
+    this.catalogPageSizeSelect = page.locator('#limit').first()
   }
 
   productByName(productName: string): Locator {
@@ -112,6 +118,32 @@ export class ProductListComponent {
 
   async expectProductPriceIsDisplayed() {
     await expect(this.productPrice).toBeVisible()
+  }
+
+  async sortBy(optionLabel: string) {
+    await this.sortSelect.selectOption({ label: optionLabel })
+    await this.page.waitForLoadState('domcontentloaded')
+  }
+
+  async expectSortOptionSelected(optionLabel: string) {
+    await expect(this.sortSelect.locator('option:checked')).toHaveText(optionLabel)
+  }
+
+  async setPageSize(pageSize: number) {
+    await this.catalogPageSizeSelect.selectOption(String(pageSize))
+    await this.page.waitForLoadState('domcontentloaded')
+  }
+
+  async expectPageSizeSelected(pageSize: number) {
+    await expect(this.catalogPageSizeSelect).toHaveValue(String(pageSize))
+  }
+
+  async expectSelectedProductHasCatalogPrice(product: SelectedProduct) {
+    expect(product.price).toMatch(/\$\d/)
+  }
+
+  async expectProductDetailsPrice(product: SelectedProduct) {
+    await expect(this.productPrice).toHaveText(product.price ?? /\$\d/)
   }
 
   async expectAddToCartIsAvailable() {

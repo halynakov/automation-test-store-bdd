@@ -107,11 +107,11 @@ The GitHub Actions workflow supports:
 
 - automatic quality gates and smoke execution on pull requests and pushes;
 - manual `workflow_dispatch` runs;
-- suite selection by tag: `@smoke` or `@regression`;
-- browser project selection: desktop Chromium, desktop Firefox, or mobile Chrome;
+- suite selection by tag: `@smoke`, `@regression`, or a custom module tag;
+- browser project selection: `all-main`, `all`, desktop Chromium, desktop Firefox, or mobile Chrome;
 - uploading Playwright HTML report and raw test results as artifacts.
 - uploading Allure report and raw Allure results as artifacts.
-- publishing the combined Allure report to GitHub Pages after successful pushes to `main`.
+- publishing the combined regression Allure report to GitHub Pages after scheduled or manual regression runs from `main`.
 - scheduled regression execution for desktop Chromium and mobile Chrome.
 
 ## Framework Modules
@@ -133,10 +133,14 @@ The MVP focuses on stable user journeys:
 - category browsing;
 - product details;
 - shopping cart;
+- cart totals and quantity recalculation;
+- account negative flows;
+- header and responsive navigation;
 - negative search result handling;
 - responsive desktop/mobile smoke coverage;
 - guest checkout start;
 - required field validation.
+- checkout confirmation summary.
 - API-prepared cart and checkout preconditions.
 - deterministic selected-product flows without broad hardcoded SKU lists.
 

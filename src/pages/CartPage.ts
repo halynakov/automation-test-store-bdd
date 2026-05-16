@@ -31,6 +31,26 @@ export class CartPage extends BasePage {
     await this.cartTable.expectFirstItemQuantity(quantity)
   }
 
+  async expectFirstItemHasUnitPrice() {
+    await this.cartTable.expectFirstItemHasUnitPrice()
+  }
+
+  async expectFirstItemRowTotalMatchesQuantity(quantity: number) {
+    await this.cartTable.expectFirstItemRowTotalMatchesQuantity(quantity)
+  }
+
+  async expectCartTotalsAreDisplayed() {
+    await this.cartTable.expectCartTotalsAreDisplayed()
+  }
+
+  async expectCartTotalEqualsSubtotalPlusShipping() {
+    await this.cartTable.expectCartTotalEqualsSubtotalPlusShipping()
+  }
+
+  async expectCartTotalIsGreaterThanSubtotal() {
+    await this.cartTable.expectCartTotalIsGreaterThanSubtotal()
+  }
+
   async removeFirstItem() {
     await this.cartTable.removeFirstItem()
   }

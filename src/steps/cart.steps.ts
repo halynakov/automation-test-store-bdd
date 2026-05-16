@@ -75,6 +75,26 @@ Then('First cart item quantity is {int}', async ({ pages }, quantity: number) =>
   await pages.cart.expectFirstItemQuantity(quantity)
 })
 
+Then('First cart item has a unit price', async ({ pages }) => {
+  await pages.cart.expectFirstItemHasUnitPrice()
+})
+
+Then('First cart item row total matches quantity {int}', async ({ pages }, quantity: number) => {
+  await pages.cart.expectFirstItemRowTotalMatchesQuantity(quantity)
+})
+
+Then('Cart totals are displayed', async ({ pages }) => {
+  await pages.cart.expectCartTotalsAreDisplayed()
+})
+
+Then('Cart total equals subtotal plus shipping', async ({ pages }) => {
+  await pages.cart.expectCartTotalEqualsSubtotalPlusShipping()
+})
+
+Then('Cart total is greater than subtotal', async ({ pages }) => {
+  await pages.cart.expectCartTotalIsGreaterThanSubtotal()
+})
+
 Then('Shopping cart is empty', async ({ pages }) => {
   await pages.cart.expectCartIsEmpty()
 })

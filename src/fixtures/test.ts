@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test'
 import { test as base } from 'playwright-bdd'
+import { AccountPage } from '../pages/AccountPage'
 import { CartPage } from '../pages/CartPage'
 import { CheckoutPage } from '../pages/CheckoutPage'
 import { HomePage } from '../pages/HomePage'
@@ -10,6 +11,7 @@ import { ProductDiscoveryService } from '../support/ProductDiscoveryService'
 import { ScenarioContext } from '../support/scenarioContext'
 
 export type AppPages = {
+  account: AccountPage
   cart: CartPage
   checkout: CheckoutPage
   home: HomePage
@@ -31,6 +33,7 @@ export const test = base.extend<FrameworkFixtures>({
 
   pages: async ({ page }, use) => {
     await use({
+      account: new AccountPage(page),
       cart: new CartPage(page),
       checkout: new CheckoutPage(page),
       home: new HomePage(page),

@@ -15,15 +15,22 @@ on:
         options:
           - smoke
           - regression
+          - custom
       browser_project:
         description: Playwright project
         required: true
-        default: desktop-chromium
+        default: all-main
         type: choice
         options:
+          - all-main
+          - all
           - desktop-chromium
           - desktop-firefox
           - mobile-chrome
+      custom_tag:
+        description: Optional tag for custom runs, for example @cart or @checkout
+        required: false
+        type: string
       base_url:
         description: Optional base URL override
         required: false
@@ -104,9 +111,25 @@ jobs:
       - name: Generate BDD tests
         run: npm run bddgen
 
+      - name: Validate custom tag
+        if: github.event_name == 'workflow_dispatch' && inputs.suite == 'custom' && inputs.custom_tag == ''
+        run: |
+          echo "custom_tag is required when suite is custom"
+          exit 1
+
+      - name: Resolve test tag
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "TEST_GREP=@regression" >> "$GITHUB_ENV"
+          elif [ "${{ inputs.suite || 'smoke' }}" = "custom" ]; then
+            echo "TEST_GREP=${{ inputs.custom_tag }}" >> "$GITHUB_ENV"
+          else
+            echo "TEST_GREP=@${{ inputs.suite || 'smoke' }}" >> "$GITHUB_ENV"
+          fi
+
       - name: Run selected suite
-        if: (github.event_name == 'workflow_dispatch' && matrix.browser_project == inputs.browser_project) || (github.event_name != 'workflow_dispatch' && matrix.browser_project != 'desktop-firefox')
-        run: npx playwright test --project=$PLAYWRIGHT_PROJECT --grep @$TEST_SUITE
+        if: (github.event_name != 'workflow_dispatch' && matrix.browser_project != 'desktop-firefox') || (github.event_name == 'workflow_dispatch' && (inputs.browser_project == 'all' || inputs.browser_project == matrix.browser_project || (inputs.browser_project == 'all-main' && matrix.browser_project != 'desktop-firefox')))
+        run: npx playwright test --project=$PLAYWRIGHT_PROJECT --grep "$TEST_GREP"
 
       - name: Generate Allure report
         if: always()
@@ -150,7 +173,7 @@ jobs:
   publish-allure-pages:
     name: Publish Allure report to GitHub Pages
     needs: e2e
-    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.suite == 'regression'))
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:

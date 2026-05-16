@@ -30,6 +30,10 @@ export class GuestCheckoutFormComponent {
     await expect(this.validationMessages.first()).toBeVisible()
   }
 
+  async expectValidationContains(message: string | RegExp) {
+    await expect(this.validationMessages.filter({ hasText: message }).first()).toBeVisible()
+  }
+
   async fillValidCustomerDetails(customer: GuestCustomer = guestCustomer) {
     await this.firstNameInput.fill(customer.firstName)
     await this.lastNameInput.fill(customer.lastName)

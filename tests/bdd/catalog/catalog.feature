@@ -23,18 +23,40 @@ Feature: Product catalog
     Then at least 1 catalog product is visible
 
     Examples:
-      | category |
-      | Makeup   |
-      | Skincare |
+      | category  |
+      | Makeup    |
+      | Skincare  |
+      | Fragrance |
+      | Hair Care |
+      | Books     |
 
   @smoke
   Scenario: Customer can select an available makeup product
     Given I select an available product from category "Makeup"
     Then the selected product is visible in catalog
 
+  @smoke
   Scenario: Customer can open selected product details
     Given I select an available product from category "Makeup"
     When I open the selected product
     Then selected product details are displayed
     And Product price is displayed
     And Product add to cart control is available
+
+  Scenario Outline: Customer can sort product listing
+    When Open category "Makeup"
+    And Sort catalog by "<sortOption>"
+    Then catalog sort option "<sortOption>" is selected
+    And at least 1 catalog product is visible
+
+    Examples:
+      | sortOption        |
+      | Name A - Z        |
+      | Price Low > High  |
+      | Price High > Low  |
+
+  Scenario: Customer can change catalog page size
+    When Open category "Makeup"
+    And Set catalog page size to 20
+    Then catalog page size is 20
+    And at least 1 catalog product is visible

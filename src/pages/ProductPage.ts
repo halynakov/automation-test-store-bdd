@@ -1,6 +1,7 @@
 import { Page } from '@playwright/test'
 import { BasePage } from './BasePage'
 import { ProductListComponent } from './components/ProductListComponent'
+import { SelectedProduct } from '../support/scenarioContext'
 
 export class ProductPage extends BasePage {
   readonly productList: ProductListComponent
@@ -20,6 +21,14 @@ export class ProductPage extends BasePage {
 
   async expectProductPriceIsDisplayed() {
     await this.productList.expectProductPriceIsDisplayed()
+  }
+
+  async expectSelectedProductHasCatalogPrice(product: SelectedProduct) {
+    await this.productList.expectSelectedProductHasCatalogPrice(product)
+  }
+
+  async expectProductDetailsPrice(product: SelectedProduct) {
+    await this.productList.expectProductDetailsPrice(product)
   }
 
   async expectAddToCartIsAvailable() {

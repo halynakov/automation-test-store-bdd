@@ -9,29 +9,34 @@ enough for repeatable E2E execution:
 - category browsing;
 - product details;
 - shopping cart operations;
+- cart totals and quantity recalculation;
+- account access negative flows;
+- header and responsive navigation;
 - negative search result handling;
 - responsive desktop and mobile smoke coverage;
-- guest checkout start and validation.
+- guest checkout start, validation, and confirmation summary.
 - API-assisted cart preconditions for faster checkout and cart coverage.
 - deterministic catalog discovery instead of broad hardcoded product lists.
 
 ## Suite Tags
 
-| Tag           | Purpose                                                  |
-| ------------- | -------------------------------------------------------- |
-| `@smoke`      | Minimal high-value checks for quick feedback             |
-| `@regression` | Broader functional coverage for release confidence       |
-| Domain tags   | `@catalog`, `@cart`, `@checkout` group scenarios by area |
+| Tag           | Purpose                                                                                 |
+| ------------- | --------------------------------------------------------------------------------------- |
+| `@smoke`      | Minimal high-value checks for quick feedback                                            |
+| `@regression` | Broader functional coverage for release confidence                                      |
+| Domain tags   | `@catalog`, `@cart`, `@checkout`, `@journey`, `@account`, `@navigation` group by module |
 
 ## Current Coverage
 
-| Area           | Covered behavior                                                                       |
-| -------------- | -------------------------------------------------------------------------------------- |
-| Catalog        | Canary search, deterministic product discovery, category availability, product details |
-| Cart           | UI add flows, API-prepared carts, multi-category products, quantity update, removal    |
-| Checkout       | API-prepared guest checkout start, validation, customer profile table, data retention  |
-| Journey        | Discovery-to-cart-to-checkout flow with selected product context                       |
-| Mobile/Desktop | Shared smoke scenarios across desktop Chromium and mobile Chrome projects              |
+| Area           | Covered behavior                                                                                           |
+| -------------- | ---------------------------------------------------------------------------------------------------------- |
+| Catalog        | Canary search, deterministic product discovery, category availability, sorting, page size, product details |
+| Cart           | UI add flows, API-prepared carts, multi-category products, quantity update, removal, totals                |
+| Checkout       | API-prepared guest checkout start, validation, customer profile table, confirmation summary                |
+| Account        | Login, registration, and forgotten-password negative flows                                                 |
+| Navigation     | Header visibility, home/cart/account navigation, top-level category navigation                             |
+| Journey        | Discovery-to-cart-to-checkout flow with selected product context                                           |
+| Mobile/Desktop | Shared smoke and regression scenarios across desktop Chromium and mobile Chrome projects                   |
 
 ## Test Data Approach
 

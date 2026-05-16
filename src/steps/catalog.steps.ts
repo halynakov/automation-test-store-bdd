@@ -17,6 +17,14 @@ When('Open category {string}', async ({ pages }, categoryName: string) => {
   await pages.home.openCategory(categoryName)
 })
 
+When('Sort catalog by {string}', async ({ pages }, optionLabel: string) => {
+  await pages.home.sortCatalogBy(optionLabel)
+})
+
+When('Set catalog page size to {int}', async ({ pages }, pageSize: number) => {
+  await pages.home.setCatalogPageSize(pageSize)
+})
+
 When('Open product {string}', async ({ pages }, productName: string) => {
   await pages.product.openProduct(productName)
 })
@@ -53,10 +61,26 @@ Then('Product price is displayed', async ({ pages }) => {
   await pages.product.expectProductPriceIsDisplayed()
 })
 
+Then('selected product has a catalog price', async ({ pages, scenarioContext }) => {
+  await pages.product.expectSelectedProductHasCatalogPrice(getLatestSelectedProduct(scenarioContext))
+})
+
+Then('selected product detail price matches catalog price', async ({ pages, scenarioContext }) => {
+  await pages.product.expectProductDetailsPrice(getLatestSelectedProduct(scenarioContext))
+})
+
 Then('Product add to cart control is available', async ({ pages }) => {
   await pages.product.expectAddToCartIsAvailable()
 })
 
 Then('at least {int} catalog product is visible', async ({ pages }, expectedCount: number) => {
   await pages.home.expectVisibleProductCountAtLeast(expectedCount)
+})
+
+Then('catalog sort option {string} is selected', async ({ pages }, optionLabel: string) => {
+  await pages.home.expectCatalogSortOptionSelected(optionLabel)
+})
+
+Then('catalog page size is {int}', async ({ pages }, pageSize: number) => {
+  await pages.home.expectCatalogPageSizeSelected(pageSize)
 })

@@ -1,5 +1,6 @@
 import { DataTable } from 'playwright-bdd'
 import { When, Then } from './bdd'
+import { getSelectedProducts } from '../support/scenarioContext'
 import { GuestCustomer, guestCustomer } from '../support/testData'
 
 const customerFields = [
@@ -43,6 +44,10 @@ When('Submit checkout form without required fields', async ({ pages }) => {
   await pages.checkout.continueWithoutRequiredFields()
 })
 
+When('Continue checkout form', async ({ pages }) => {
+  await pages.checkout.continueCheckoutForm()
+})
+
 When('Fill valid guest checkout details', async ({ pages, scenarioContext }) => {
   scenarioContext.guestCustomer = guestCustomer
   await pages.checkout.fillGuestDetails(scenarioContext.guestCustomer)
@@ -61,6 +66,10 @@ Then('Checkout validation message is displayed', async ({ pages }) => {
   await pages.checkout.expectValidationIsShown()
 })
 
+Then('Checkout validation message contains {string}', async ({ pages }, message: string) => {
+  await pages.checkout.expectValidationContains(message)
+})
+
 Then('Checkout page is displayed', async ({ pages }) => {
   await pages.checkout.expectCheckoutPage()
 })
@@ -71,4 +80,26 @@ Then('Checkout account selection is displayed', async ({ pages }) => {
 
 Then('Guest checkout details are filled', async ({ pages, scenarioContext }) => {
   await pages.checkout.expectGuestDetailsAreFilled(scenarioContext.guestCustomer)
+})
+
+Then('Checkout confirmation is displayed', async ({ pages }) => {
+  await pages.checkout.expectCheckoutConfirmation()
+})
+
+Then('Checkout confirmation contains the selected product', async ({ pages, scenarioContext }) => {
+  await pages.checkout.expectConfirmationContainsProduct(getSelectedProducts(scenarioContext)[0].name)
+})
+
+Then('Checkout confirmation contains the selected products', async ({ pages, scenarioContext }) => {
+  for (const product of getSelectedProducts(scenarioContext)) {
+    await pages.checkout.expectConfirmationContainsProduct(product.name)
+  }
+})
+
+Then('Checkout confirmation totals are displayed', async ({ pages }) => {
+  await pages.checkout.expectConfirmationTotalsAreDisplayed()
+})
+
+Then('Checkout confirmation address and payment are displayed', async ({ pages }) => {
+  await pages.checkout.expectConfirmationAddressIsDisplayed()
 })

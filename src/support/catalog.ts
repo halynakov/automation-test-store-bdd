@@ -20,6 +20,21 @@ export const catalogCategories = {
     name: 'Skincare',
     path: '43',
     selectValue: '0,43'
+  },
+  Fragrance: {
+    name: 'Fragrance',
+    path: '49',
+    selectValue: '0,49'
+  },
+  'Hair Care': {
+    name: 'Hair Care',
+    path: '52',
+    selectValue: '0,52'
+  },
+  Books: {
+    name: 'Books',
+    path: '65',
+    selectValue: '0,65'
   }
 } as const
 
