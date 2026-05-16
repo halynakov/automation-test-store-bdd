@@ -19,14 +19,14 @@ on:
       browser_project:
         description: Playwright project
         required: true
-        default: all-main
+        default: desktop-and-mobile
         type: choice
         options:
-          - all-main
-          - all
           - desktop-chromium
-          - desktop-firefox
           - mobile-chrome
+          - desktop-firefox
+          - desktop-and-mobile
+          - all-browsers
       custom_tag:
         description: Optional tag for custom runs, for example @cart or @checkout
         required: false
@@ -128,7 +128,7 @@ jobs:
           fi
 
       - name: Run selected suite
-        if: (github.event_name != 'workflow_dispatch' && matrix.browser_project != 'desktop-firefox') || (github.event_name == 'workflow_dispatch' && (inputs.browser_project == 'all' || inputs.browser_project == matrix.browser_project || (inputs.browser_project == 'all-main' && matrix.browser_project != 'desktop-firefox')))
+        if: (github.event_name != 'workflow_dispatch' && matrix.browser_project != 'desktop-firefox') || (github.event_name == 'workflow_dispatch' && (inputs.browser_project == 'all-browsers' || inputs.browser_project == matrix.browser_project || (inputs.browser_project == 'desktop-and-mobile' && matrix.browser_project != 'desktop-firefox')))
         run: npx playwright test --project=$PLAYWRIGHT_PROJECT --grep "$TEST_GREP"
 
       - name: Generate Allure report

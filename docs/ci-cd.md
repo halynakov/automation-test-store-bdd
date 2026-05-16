@@ -32,7 +32,7 @@ E2E regressions in one flow.
 ## Configurable Inputs
 
 - `suite`: `smoke`, `regression`, or `custom`
-- `browser_project`: `all-main`, `all`, `desktop-chromium`, `desktop-firefox`, or `mobile-chrome`
+- `browser_project`: `desktop-chromium`, `mobile-chrome`, `desktop-firefox`, `desktop-and-mobile`, or `all-browsers`
 - `custom_tag`: optional tag for custom manual runs, for example `@cart`, `@checkout`, or `@account`
 - `base_url`: optional target environment override
 

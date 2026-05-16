@@ -108,7 +108,7 @@ The GitHub Actions workflow supports:
 - automatic quality gates and smoke execution on pull requests and pushes;
 - manual `workflow_dispatch` runs;
 - suite selection by tag: `@smoke`, `@regression`, or a custom module tag;
-- browser project selection: `all-main`, `all`, desktop Chromium, desktop Firefox, or mobile Chrome;
+- browser project selection: desktop Chromium, mobile Chrome, desktop Firefox, `desktop-and-mobile`, or `all-browsers`;
 - uploading Playwright HTML report and raw test results as artifacts.
 - uploading Allure report and raw Allure results as artifacts.
 - publishing the combined regression Allure report to GitHub Pages after scheduled or manual regression runs from `main`.
